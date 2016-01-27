@@ -1,0 +1,87 @@
+Notes on Going through the Django Unleashed Tutorial
+
+Chapter 1
+
+Before starting:
+
+    Created a "DjangoUnleashed" folder in my Documents directory
+    
+    Installed Python 3.5.1
+        Go to www.python.org
+        Click around until you find the python version for 64bit computers
+        Download the program
+        Install
+            Be sure to check the box "Add Python 3.5 to PATH"
+            Had some trouble since, by default, it installed in the AppData folder instead of C:/Python35
+            Entered the custom install first, clicked "Install for all Users" then backed into the original
+                page
+        I don't know if I get to use this however -- see the virtual environment section below
+    
+    Created a GitHub Repository
+        Go to www.github.com
+        Click the green button labeled "+ New repository"
+        Name the repository "djututorial"
+        Added a description
+        Checked the box:  "Initial this repository with a README"
+        Clicked the green button labeled "Create Repository"
+        (This created a repository with a README.md file which included the repository name and description)
+        
+    Cloned the repository to the DjangoUnleashed folder
+        git clone https://github.com/jmorris1575/djututorial
+        (note your username on GitHub)
+        (Note:  your password is pet+kzoo)
+        This created a djututorial folder in the DjangoUnleashed folder containing the README.md file and
+            the .git folder.  I think I wanted them in the top-level folder created by Django.  Hopefully,
+            I can move them and git will follow the change.
+        
+    Created a virtual environment: dju
+        run the command: mkvirtualenv dju
+            this created an environment using python3.4.4 (virtualenvwrapper for 3.5 is not yet available)
+            
+    Installed Django to the virtual environment:
+        pip install django
+            Successfully installed django-1.9.1
+        
+
+Starting the Project:
+    
+    cd documents/djangounleashed/suorganizer
+    django-admin startproject suorganizer
+    
+    Started Django's Runserver in another command window to test the site
+        it worked in spite of not doing python manage.py migrate
+        
+Continued on following the book's instructions...
+
+When it came to making the first git commit I found I had to git add <file> for each and every
+file and directory listed as untracked in git status.  There may be an easier way.
+
+I had a hard time pushing it to github so I deleted the existing djututorial repository and
+created a new one without a README.md file (as github suggested since I was planning on pushing
+an existing repository)  After creating the new djututorial repository it gave me some helpful instructions:
+
+     We recommend every repository include a README, LICENSE, and .gitignore.
+    …or create a new repository on the command line
+
+    echo "# djututorial" >> README.md
+    git init
+    git add README.md
+    git commit -m "first commit"
+    git remote add origin https://github.com/JMorris1575/djututorial.git
+    git push -u origin master
+
+    …or push an existing repository from the command line
+
+    git remote add origin https://github.com/JMorris1575/djututorial.git
+    git push -u origin master
+
+    …or import code from another repository
+
+    You can initialize this repository with code from a Subversion, Mercurial, or TFS project.
+    
+I used the second option "push an existing repository..." and it seemed to work well.
+    
+    
+    
+        
+
