@@ -80,6 +80,10 @@ an existing repository)  After creating the new djututorial repository it gave m
     You can initialize this repository with code from a Subversion, Mercurial, or TFS project.
     
 I used the second option "push an existing repository..." and it seemed to work well.
+
+Section 3.6
+    python manage.py check is a good way to check for errors in the models before creating a migrations file
+    
     
     
     

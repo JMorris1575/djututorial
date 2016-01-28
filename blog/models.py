@@ -1,8 +1,8 @@
 from django.db import models
 
+from organizer.models import Startup, Tag
+
 # Create your models here.
-
-
 
 
 
