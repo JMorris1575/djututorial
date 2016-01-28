@@ -84,6 +84,25 @@ I used the second option "push an existing repository..." and it seemed to work 
 Section 3.6
     python manage.py check is a good way to check for errors in the models before creating a migrations file
     
+    I got a strange error about Django configuration when I tried the line:
+        >>> from organizer.models import Tag, Startup, NewsLink
+    The problem what that I had gotten into python with:
+        (dju) C:\Users...blah, blah, blah...>python
+    When I needed to use:
+        (dju) ...blah, blah, blah...>python manage.py shell
+    which apparently configures django properly.  (See Django tutorial.)
+    
+    github.com was having problems tonight, it's servers were down, so I simply copied all the files from
+    my home computer to this rectory computer.  It all worked except that I updated from Python 3.4.1 to
+    Python 3.4.4 in order to try to solve the problem explained immediately above.
+    
+    When I tried:
+        git push origin master
+    that worked too, asking me for my username and password on github (JMorris1575, (pet)(kzoo))
+    By the way, with the database changes I made, I removed db.sqlite3 from the .gitignore file and
+    it is now tracked and saved on github.  (They seem to have fixed whatever the problem was.)
+    
+    
     
     
     
