@@ -23,7 +23,7 @@ from .views import redirect_root
 
 urlpatterns = [
     url(r'^$', redirect_root),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),   # "include" not needed: see https://docs.djangoproject.com/en/1.9/releases/1.9/
 	url(r'^', include(organizer_urls)),
     url(r'^blog/', include(blog_urls)),
 ]
