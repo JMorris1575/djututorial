@@ -13,6 +13,41 @@ class NewsLinkCreate(ObjectCreateMixin, View):
     template_name = 'organizer/newslink_form.html'
 
 
+class NewsLinkUpdate(View):
+    form_class = NewsLinkForm
+    template_name = (
+        'organizer/newslink_form_update.html')
+
+    def get(self, request, pk):
+        newslink = get_object_or_404(
+            NewsLink, pk=pk)
+        context = {
+            'form': self.form_class(
+                instance=newslink),
+            'newslink': newslink,
+        }
+        return render(
+            request, self.template_name, context)
+
+    def post(self, request, pk):
+        newslink = get_object_or_404(
+            NewsLink, pk=pk)
+        bound_form = self.form_class(
+            request.POST, instance=newslink)
+        if bound_form.is_valid():
+            new_newslink = bound_form.save()
+            return redirect(new_newslink)
+        else:
+            context = {
+                'form': bound_form,
+                'newslink': newslink,
+            }
+            return render(
+                request,
+                self.template_name,
+                context)
+
+
 class StartupCreate(ObjectCreateMixin, View):
     form_class = StartupForm
     template_name = 'organizer/startup_form.html'
