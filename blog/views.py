@@ -1,9 +1,33 @@
 from django.shortcuts import (
-    get_object_or_404, render)
+    get_object_or_404, redirect, render)
 from django.views.generic import View
 
 from .models import Post
 
+from .forms import PostForm
+
+
+
+class PostCreate(View):
+    form_class = PostForm
+    template_name = 'blog/post_form.html'
+
+    def get(self, request):
+        return render(
+            request,
+            self.template_name,
+            {'form': form_class()})
+
+    def post(self, request):
+        bound_form = self.form_class(request.POST)
+        if bound_form.is_valid():
+            new_post = bound_form.save()
+            return redirect(new_post)
+        else:
+            return render(
+                request,
+                self.template_name,
+                {'form': bound_form})
 
 def post_detail(request, year, month, slug):
     post = get_object_or_404(
