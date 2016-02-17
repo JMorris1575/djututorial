@@ -6,7 +6,8 @@ from .forms import (
     NewsLinkForm, StartupForm, TagForm)
 from .models import Startup, Tag
 from .utils import(
-    ObjectCreateMixin, ObjectUpdateMixin)
+    ObjectCreateMixin, ObjectDeleteMixin,
+    ObjectUpdateMixin)
 
 
 class NewsLinkCreate(ObjectCreateMixin, View):
@@ -99,6 +100,15 @@ class StartupUpdate(ObjectUpdateMixin, View):
 class TagCreate(View):
     form_class = TagForm
     template_name = 'organizer/tag_form.html'
+
+
+
+class TagDelete(View):
+    model = Tag
+    success_url = reverse_lazy(
+        'organizer_tag_list')
+    template_name = (
+        'organizer/tag_confirm_delete.html')
 
 
 def tag_list(request):
