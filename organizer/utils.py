@@ -56,4 +56,3 @@ class ObjectUpdateMixin:
                 request,
                 self.template_name,
                 context)
-        

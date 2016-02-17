@@ -5,7 +5,8 @@ from django.views.generic import View
 from .forms import (
     NewsLinkForm, StartupForm, TagForm)
 from .models import Startup, Tag
-from .utils import ObjectCreateMixin
+from .utils import(
+    ObjectCreateMixin, ObjectUpdateMixin)
 
 
 class NewsLinkCreate(ObjectCreateMixin, View):
@@ -88,3 +89,10 @@ def tag_detail(request, slug):
         request,
         'organizer/tag_detail.html',
         {'tag': tag})
+
+
+class TagUpdate(ObjectUpdateMixin, View):
+    form_class = TagForm
+    model = Tag
+    template_name = (
+        'organizer/tag_form_update.html')

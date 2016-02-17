@@ -30,5 +30,7 @@ urlpatterns = [
     url(r'tag/(?P<slug>[\w\-]+)/$',
         tag_detail,
         name='organizer_tag_detail'),
-    
+    url(r'^tag/(?P<slug>[\w\-]+)/update/$',
+        TagUpdate.as_view(),
+        name='organizer_tag_update')
 ]
