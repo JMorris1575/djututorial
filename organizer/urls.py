@@ -1,11 +1,11 @@
 from django.conf.urls import url
 
 from .views import(
-        NewsLinkCreate, NewsLinkUpdate, StartupCreate,
-        StartupUpdate, TagCreate, TagDelete,
-        TagUpdate, startup_detail, startup_list,
-        tag_detail, tag_list)
-
+        NewsLinkCreate, NewsLinkUpdate, NewsLinkDelete,
+        StartupCreate, StartupUpdate, StartupDelete,
+        TagCreate, TagUpdate, TagDelete,
+        startup_detail, startup_list, tag_detail,
+        tag_list)
 
 urlpatterns = [
     url(r'^newslink/create/$',

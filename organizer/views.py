@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import (
     get_object_or_404, redirect, render)
 from django.views.generic import View
@@ -74,7 +75,6 @@ class StartupCreate(ObjectCreateMixin, View):
     template_name = 'organizer/startup_form.html'
 
 
-
 class StartupDelete(ObjectDeleteMixin, View):
     model = Startup
     success_url = reverse_lazy(
@@ -109,7 +109,6 @@ class StartupUpdate(ObjectUpdateMixin, View):
 class TagCreate(ObjectCreateMixin, View):
     form_class = TagForm
     template_name = 'organizer/tag_form.html'
-
 
 
 class TagDelete(ObjectDeleteMixin, View):
