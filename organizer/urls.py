@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^newslink/delete/(?P<pk>\d+)/$',
         NewsLinkDelete.as_view(),
         name='organizer_newslink_delete'),
-    url(r'^newslink/update/$',
+    url(r'^newslink/update/(?P<pk>\d+)/$',
         NewsLinkUpdate.as_view(),
         name='organizer_newslink_update'),
     url(r'^startup/$',

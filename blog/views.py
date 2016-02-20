@@ -16,7 +16,7 @@ class PostCreate(View):
         return render(
             request,
             self.template_name,
-            {'form': form_class()})
+            {'form': self.form_class()})
 
     def post(self, request):
         bound_form = self.form_class(request.POST)
