@@ -5,7 +5,7 @@ from django.views.generic import View
 
 from .forms import (
     NewsLinkForm, StartupForm, TagForm)
-from .models import Startup, Tag
+from .models import Startup, Tag, NewsLink
 from .utils import(
     ObjectCreateMixin, ObjectDeleteMixin,
     ObjectUpdateMixin)
