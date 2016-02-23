@@ -17,7 +17,7 @@ class ContactForm(forms.Form):
         initial=FEEDBACK)
     email = forms.EmailField(
         initial='jmorris@ecybermind.net')
-    text = forms.CharField(widgt=forms.Textarea)
+    text = forms.CharField(widget=forms.Textarea)
 
     def send_mail(self):
         reason = self.cleaned_data.get('reason')
