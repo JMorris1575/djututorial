@@ -19,6 +19,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
+SITE_ID = 1     # added in Chapter 15, page 354
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'yq&@p*hp&tzp%f$-nx&&8^6kjl8_0d*1(dm*&w(&sa7edzige3'
 
@@ -26,6 +28,7 @@ SECRET_KEY = 'yq&@p*hp&tzp%f$-nx&&8^6kjl8_0d*1(dm*&w(&sa7edzige3'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -36,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.flatpages',
     'django.contrib.staticfiles',
-    #'django_extensions',
+    'django.contrib.sites',
     'organizer',
     'blog',
     'contact',
