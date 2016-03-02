@@ -1,20 +1,22 @@
 {% extends parent_template|default:"organizer/base_organizer.html" %}
 
 {% block title %}
-    {{ block.super }} - Update Startup
+{{ block.super }} - Update Startup
 {% endblock %}
 
 {% block content %}
-    <div>
-        <div>
-            <form
-                action="{{ startup.get_update_url }}"
-                method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">
-                    Update Startup</button>
-            </form>
-        </div>
+  <div class="row">
+    <div class="offset-by-two eight columns">
+      <form
+          action="{{ startup.get_update_url }}"
+          method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button
+            class="button-primary"
+            type="submit">
+          Update Startup</button>
+      </form>
     </div>
-{% endblock%}
+  </div>
+{% endblock %}
