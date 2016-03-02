@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from ..views import(
         StartupCreate, StartupUpdate, StartupDelete,
-        StartupList, startup_detail)
+        StartupList, StartupDetail)
 
 urlpatterns = [
     url(r'^$',
@@ -12,7 +12,7 @@ urlpatterns = [
         StartupCreate.as_view(),
         name='organizer_startup_create'),
     url(r'^(?P<slug>[\w\-]+)/$',
-        startup_detail,
+        StartupDetail.as_view(),
         name='organizer_startup_detail'),
     url(r'^(?P<slug>[\w\-]+)/delete/$',
         StartupDelete.as_view(),
