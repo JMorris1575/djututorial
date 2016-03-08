@@ -3,10 +3,17 @@ from django.shortcuts import (
 from django.views.decorators.http import \
     require_http_methods
 from django.views.generic import (
-    CreateView, ListView, View, YearArchiveView)
+    CreateView, ListView, View, MonthArchiveView,
+    YearArchiveView)
 
 from .models import Post
 from .forms import PostForm
+
+
+class PostArchiveMonth(MonthArchiveView):
+    model = Post
+    date_field = 'pub_date'
+    month_format = '%m'
 
 
 class PostArchiveYear(YearArchiveView):
