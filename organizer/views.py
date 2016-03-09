@@ -1,12 +1,12 @@
 from django.core.paginator import (
     EmptyPage, PageNotAnInteger, Paginator)
-from django.core.urlresolvers import (
-    reverse, reverse_lazy)
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import (
     get_object_or_404, redirect, render)
 from django.views.generic import (
-    CreateView, DeleteView,
-    DetailView, UpdateView, View)
+    CreateView, DeleteView, DetailView, View)
+
+from core.utils import UpdateView
 
 from .forms import (
     NewsLinkForm, StartupForm, TagForm)
@@ -32,10 +32,9 @@ class NewsLinkDelete(DeleteView):
         redirect(startup)
 
 
-class NewsLinkUpdate(View):
+class NewsLinkUpdate(UpdateView):
     form_class = NewsLinkForm
-    template_name = (
-        'organizer/newslink_form_update.html')
+    model = NewsLink
 
     def get(self, request, pk):
         newslink = get_object_or_404(
@@ -45,6 +44,7 @@ class NewsLinkUpdate(View):
                 instance=newslink),
             'newslink': newslink,
         }
+        print('Template Name = ', self.template_name)
         return render(
             request, self.template_name, context)
 
@@ -127,8 +127,6 @@ class StartupList(View):
 class StartupUpdate(UpdateView):
     form_class = StartupForm
     model = Startup
-    template_name = (
-        'organizer/startup_form_update.html')
 
 
 class TagCreate(CreateView, View):
@@ -204,5 +202,3 @@ class TagPageList(View):
 class TagUpdate(UpdateView):
     form_class = TagForm
     model = Tag
-    template_name = (
-        'organizer/tag_form_update.html')
