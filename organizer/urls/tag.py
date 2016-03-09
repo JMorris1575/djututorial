@@ -3,7 +3,7 @@ from django.conf.urls import url
 from ..models import Tag
 from ..views import(
         TagCreate, TagUpdate, TagDelete,
-        TagList, TagPageList, TagDetail)
+        TagList, TagDetail)
 
 urlpatterns = [
     url(r'^$',
@@ -12,9 +12,6 @@ urlpatterns = [
     url(r'^create/$',
         TagCreate.as_view(),
         name='organizer_tag_create'),
-    url(r'^(?P<page_number>\d+)/$',
-        TagPageList.as_view(),
-        name='organizer_tag_page'),
     url(r'^(?P<slug>[\w\-]+)/$',
         TagDetail.as_view(
             context_object_name='tag',
