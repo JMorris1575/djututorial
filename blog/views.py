@@ -1,10 +1,8 @@
 from django.shortcuts import (
     get_object_or_404, redirect, render)
-from django.views.decorators.http import \
-    require_http_methods
 from django.views.generic import (
-    CreateView, ArchiveIndexView, View, MonthArchiveView,
-    YearArchiveView)
+    CreateView, ArchiveIndexView, MonthArchiveView,
+    YearArchiveView, DateDetailView, View)
 
 from .models import Post
 from .forms import PostForm
@@ -50,17 +48,20 @@ class PostDelete(View):
         return redirect('blog_post_list')
 
 
-@require_http_methods(['HEAD', 'GET'])
-def post_detail(request, year, month, slug):
-    post = get_object_or_404(
-        Post,
-        pub_date__year=year,
-        pub_date__month=month,
-        slug=slug)
-    return render(
-        request,
-        'blog/post_detail.html',
-        {'post': post})
+class PostDetail(DateDetailView):
+    date_field = 'pub_date'
+    model = Post
+    month_format = '%m'
+
+    def get_day(self):
+        return '1'
+
+    def _make_single_date_lookup(self, date):
+        date_field = self.get_date_field()
+        return {
+            date_field + '__year': date.year,
+            date_field + '__month': date.month,
+        }
 
 
 class PostList(ArchiveIndexView):
