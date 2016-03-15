@@ -4,6 +4,39 @@ from django.views.generic.dates import(
     YearMixin as BaseYearMixin, _date_from_string)
 
 
+class MonthMixin(BaseMonthMixin):
+    month_format = '%m'
+    month_query_kwarg = 'month'
+    month_url_kwarg = 'month'
+
+    def get_month(self):
+        month = self.month
+        if month is None:
+            month = self.kwargs.get(
+                self.month_url_kwarg,
+                self.request.GET.get(
+                    self.month_query_kwarg))
+        if month is None:
+            raise Http404("No month specified")
+        return month
+
+
+class YearMixin(BaseYearMixin):
+    year_query_kwarg = 'year'
+    year_url_kwarg = 'year'
+
+    def get_year(self):
+        year = self.year
+        if year is None:
+            year = self.kwargs.get(
+                self.year_url_kwarg,
+                self.request.GET.get(
+                    self.year_query_kwarg))
+        if year is None:
+            raise Http404("No year specified")
+        return year
+
+
 class DateObjectMixin(
     YearMixin, MonthMixin, DateMixin):
 
