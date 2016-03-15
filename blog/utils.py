@@ -1,9 +1,57 @@
-from django.shortcuts import get_object_or_404
+from django.http import Http404
+from django.views.generic.dates import(
+    DateMixin, MonthMixin as BaseMonthMixin,
+    YearMixin as BaseYearMixin, _date_from_string)
 
-from .models import Post
 
+class DateObjectMixin(
+    YearMixin, MonthMixin, DateMixin):
+
+    def get_object(self, queryset=None):
+        year = self.get_year()
+        month = self.get_month()
+        date = _date_from_string(
+            year, self.get_year_format(),
+            month, self.get_month_format()
+        )
+        if queryset is None:
+            queryset = self.get_queryset()
+        if (not self.get_allow_future()
+                and date > date.today()):
+            raise Http404(
+                "Future {} not available because "
+                "{}.allow_future is False."
+                .format(
+                    (queryset.model
+                     ._meta.verbose_name_plural),
+                    self.__class__.__name__))
+            filter_dict = (
+                self._make_single_date_lookup(date))
+            queryset = queryset.filter(**filter_dict)
+            return super().get_object(
+                queryset=queryset)
+
+    def _make_single_date_lookup(self, date):
+        date_field = self.get_date_field()
+        if self.uses_datetime_field:
+            since = self._make_date_lookup_arg(
+                date)
+            until = self._make_date_lookup_arg(
+                self._get_next_month(date))
+            return {
+                '%s__gte' % date_field: since,
+                '%s__lt' % date_field: until,
+            }
+        else:
+            return {
+                '%s__gte' % date_field: date,
+                '%s__lt' % date_field:
+                    self.__get_next_month(date),
+            }
 
 class PostGetMixin:
+    date_field = 'pub_date'
+    model = Post
     month_url_kwarg = 'month'
     year_url_kwarg = 'year'
 
@@ -11,6 +59,8 @@ class PostGetMixin:
         'url_kwargs':
             "Generic view {} must be called with "
             "year, month, and slug.",
+        'not_exits':
+            "No {} by that date and slug.",
     }
 
     def get_object(self, queryset=None):
@@ -26,8 +76,21 @@ class PostGetMixin:
             raise AttributeError(
                 self.errors['url_kwargs'].format(
                     self.__class__.__name__))
-        return get_object_or_404(
-            Post,
-            pub_date__year=year,
-            pub_date__month=month,
-            slug__iexact=slug)
+        date_field = self.date_field
+        slug_field = self.get_slug_field()
+        filter_dict = {
+            date_field + '__year': year,
+            date_field + '__month': month,
+            slug_field: slug,
+        }
+        if queryset is None:
+            queryset = self.get_queryset()
+        queryset = queryset.filter(**filter_dict)
+        try:
+            obj = queryset.get()
+        except queryset.model.DoesNotExist:
+            raise Http404(
+                self.errors['not_exist'].format(
+                    queryset.model
+                    ._meta.verbose_name))
+        return obj
