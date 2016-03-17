@@ -58,11 +58,11 @@ class DateObjectMixin(
                     (queryset.model
                      ._meta.verbose_name_plural),
                     self.__class__.__name__))
-            filter_dict = (
-                self._make_single_date_lookup(date))
-            queryset = queryset.filter(**filter_dict)
-            return super().get_object(
-                queryset=queryset)
+        filter_dict = (
+            self._make_single_date_lookup(date))
+        queryset = queryset.filter(**filter_dict)
+        return super().get_object(
+            queryset=queryset)
 
     def _make_single_date_lookup(self, date):
         date_field = self.get_date_field()
@@ -79,5 +79,5 @@ class DateObjectMixin(
             return {
                 '%s__gte' % date_field: date,
                 '%s__lt' % date_field:
-                    self.__get_next_month(date),
+                    self._get_next_month(date),
             }
