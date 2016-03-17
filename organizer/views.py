@@ -1,73 +1,47 @@
-from django.core.paginator import (
-    EmptyPage, PageNotAnInteger, Paginator)
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.shortcuts import (
-    get_object_or_404, redirect, render)
+from django.core.urlresolvers import reverse_lazy
 from django.views.generic import (
-    CreateView, DeleteView, DetailView, ListView, View)
+    CreateView, DeleteView, DetailView, ListView)
 
 from core.utils import UpdateView
-from .utils import PageLinksMixin
+
 from .forms import (
     NewsLinkForm, StartupForm, TagForm)
 from .models import Startup, Tag, NewsLink
+from .utils import (
+    NewsLinkGetObjectMixin, PageLinksMixin,
+    StartupContextMixin)
 
 
-class NewsLinkCreate(CreateView):
+class NewsLinkCreate(
+        NewsLinkGetObjectMixin,
+        StartupContextMixin,
+        CreateView):
     form_class = NewsLinkForm
     model = NewsLink
 
 
-class NewsLinkDelete(DeleteView):
+class NewsLinkDelete(
+        NewsLinkGetObjectMixin,
+        StartupContextMixin,
+        DeleteView):
     model = NewsLink
+    slug_url_kwarg = 'newslink_slug'
 
     def get_success_url(self):
-        return self.object.startup.get_absolute_url()
-
-    def post(self, request, pk):
-        newslink = get_object_or_404(
-            NewsLink, pk=pk)
-        startup = newslink.startup
-        newslink.delete()
-        redirect(startup)
+        return (self.object.startup
+                .get_absolute_url())
 
 
-class NewsLinkUpdate(UpdateView):
+class NewsLinkUpdate(
+        NewsLinkGetObjectMixin,
+        StartupContextMixin,
+        UpdateView):
     form_class = NewsLinkForm
     model = NewsLink
-
-    def get(self, request, pk):
-        newslink = get_object_or_404(
-            NewsLink, pk=pk)
-        context = {
-            'form': self.form_class(
-                instance=newslink),
-            'newslink': newslink,
-        }
-        print('Template Name = ', self.template_name)
-        return render(
-            request, self.template_name, context)
-
-    def post(self, request, pk):
-        newslink = get_object_or_404(
-            NewsLink, pk=pk)
-        bound_form = self.form_class(
-            request.POST, instance=newslink)
-        if bound_form.is_valid():
-            new_newslink = bound_form.save()
-            return redirect(new_newslink)
-        else:
-            context = {
-                'form': bound_form,
-                'newslink': newslink,
-            }
-            return render(
-                request,
-                self.template_name,
-                context)
+    slug_url_kwarg = 'newslink_slug'
 
 
-class StartupCreate(CreateView, View):
+class StartupCreate(CreateView):
     form_class = StartupForm
     model = Startup
 
@@ -92,7 +66,7 @@ class StartupUpdate(UpdateView):
     model = Startup
 
 
-class TagCreate(CreateView, View):
+class TagCreate(CreateView):
     form_class = TagForm
     model = Tag
 

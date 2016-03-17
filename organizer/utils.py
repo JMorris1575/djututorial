@@ -1,3 +1,21 @@
+from django.shortcuts import get_object_or_404
+
+from .models import NewsLink, Startup
+
+
+class NewsLinkGetObjectMixin():
+
+    def get_object(self, queryset=None):
+        startup_slug = self.kwargs.get(
+            self.startup_slug_url_kwarg)
+        newslink_slug = self.kwargs.gt(
+            self.slug_url_kwarg)
+        return get_object_or_404(
+            NewsLink,
+            slug__iexact=newslink_slug,
+            startup__slug__iexact=startup_slug)
+
+
 class PageLinksMixin:
     page_kwarg = 'page'
 
@@ -49,3 +67,20 @@ class PageLinksMixin:
                     self.last_page(page),
             })
         return context
+
+
+class StartupContextMixin():
+    startup_slug_url_kwarg = 'startup_slug'
+    startup_context_object_name = 'startup'
+
+    def get_context_data(self, **kwargs):
+        startup_slug = self.kwargs.get(
+            self.startup_slug_url_kwarg)
+        startup = get_object_or_404(
+            Startup, slug__iexact=startup_slug)
+        context = {
+            self.startup_context_object_name:
+                startup,
+        }
+        context.update(kwargs)
+        return super().get_context_data(**context)
