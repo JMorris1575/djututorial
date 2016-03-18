@@ -35,5 +35,4 @@ urlpatterns = [
         r'update/$',
         NewsLinkUpdate.as_view(),
         name='organizer_newslink_update'),
-
 ]
