@@ -13,11 +13,7 @@ urlpatterns = [
         TagCreate.as_view(),
         name='organizer_tag_create'),
     url(r'^(?P<slug>[\w\-]+)/$',
-        TagDetail.as_view(
-            context_object_name='tag',
-            model=Tag,
-            template_name=(
-                'organizer/tag_detail.html')),
+        TagDetail.as_view(),
         name='organizer_tag_detail'),
     url(r'^(?P<slug>[\w\-]+)/delete/$',
         TagDelete.as_view(),
